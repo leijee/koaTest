@@ -6,10 +6,52 @@
     <div>首页</div>
     <div>测试一下热更新</div>
     <div>4444</div>
+
+    <input type="file" id="uploadBtn" multiple="multiple">
+
     <a href="./test.html">test</a>
 </div>
 
-<% include common/footer.html %>
+    <% include common/footer.html %>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        (function(){
+
+            $("#uploadBtn").on("change",(e)=>{
+            	console.log(e.target.files)
+	            let fileData = null;
+                let files = e.target.files;
+                for(let i=0,len=files.length;i<len;i++){
+	                fileData  = new FormData();
+	                fileData.append('filename',files[i]);
+	                uploadFile(fileData);
+                }
+            });
+	        function uploadFile(fileData){
+                console.log('http://localhost:8080/upload')
+                $.ajax({
+                    url:'/upload',
+                    method:'POST',
+	                async: false,
+	                cache: false,
+	                contentType: false, //不设置内容类型
+	                processData: false, //不处理数据
+                    data:fileData,
+                    success:function (res) {
+                        console.log(res);
+                    },
+                    error:function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+
+
+
+        })();
+    </script>
+    </body>
+</html>
 
 
 

@@ -8,6 +8,7 @@ const logger = require('koa-logger')
 const ejs = require('ejs');
 const index = require('./routes/index')
 const users = require('./routes/users')
+const upload = require('./javascripts/uploadFile')
 
 // error handler
 onerror(app)
@@ -33,9 +34,13 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+//文件上传
+app.use(upload.routes(), index.allowedMethods())
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+
 
 
 app.use(async (ctx) => {
